@@ -13,27 +13,21 @@ jobs:
         platform:
           - name: linux-x64-glibc
             os: ubuntu-20.04
-            toolchain: stable
             target: x86_64-unknown-linux-gnu
           - name: linux-arm64-glibc
             os: ubuntu-20.04
-            toolchain: stable
             target: aarch64-unknown-linux-gnu
           - name: win32-x64-msvc
             os: windows-2022
-            toolchain: stable
             target: x86_64-pc-windows-msvc
           - name: win32-arm64-msvc
             os: windows-2022
-            toolchain: stable
             target: aarch64-pc-windows-msvc
           - name: darwin-x64
             os: macos-14
-            toolchain: stable
             target: x86_64-apple-darwin
           - name: darwin-arm64
             os: macos-14
-            toolchain: stable
             target: aarch64-apple-darwin
 
     steps:
@@ -41,7 +35,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Rust
-        run: rustup toolchain install ${{ matrix.platform.toolchain }} --profile minimal
+        run: rustup toolchain install stable --profile minimal
 
       - name: Cache Cargo
         uses: Swatinem/rust-cache@v2
@@ -56,35 +50,8 @@ jobs:
           args: "--locked --release"
           strip: true
 
-      - name: Generate NPM packages
-        id: generate_npm
-        shell: bash
-        run: |
-          bin="hono-kit"
-          node_os=$(echo "${{ matrix.platform.name }}" | cut -d '-' -f1)
-          node_arch=$(echo "${{ matrix.platform.name }}" | cut -d '-' -f2)
-          node_version="0.1.0"
-
-          if [ "${{ matrix.platform.os }}" = "windows-2022" ]; then
-            node_pkg="${bin}-windows-${node_arch}"
-            bin="${bin}.exe"
-          else
-            node_pkg="${bin}-${node_os}-${node_arch}"
-          fi
-
-          mkdir -p "npm/${node_pkg}/bin"
-          sed -e "s/\${node_pkg}/$node_pkg/" \
-              -e "s/\${node_version}/$node_version/" \
-              -e "s/\${node_os}/$node_os/" \
-              -e "s/\${node_arch}/$node_arch/" \
-              npm/template.package.json > "npm/${node_pkg}/package.json"
-
-          cp "target/${{ matrix.platform.target }}/release/${bin}" "npm/${node_pkg}/bin"
-
-          echo "node_pkg=$node_pkg" >> $GITHUB_ENV
-
-      - name: Upload NPM package
+      - name: Upload Release Binary
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.node_pkg }}
-          path: npm/${{ env.node_pkg }}
+          name: ${{ matrix.platform.name }}-binary
+          path: target/${{ matrix.platform.target }}/release/
