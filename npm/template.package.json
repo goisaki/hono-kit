@@ -1,0 +1,8 @@
+{
+  "name": "${node_pkg}",
+  "version": "${node_version}",
+  "license": "MIT",
+  "author": "Kengo Watanabe <ken5@kwtc.jp>",
+  "os": ["${node_os}"],
+  "cpu": ["${node_arch}"]
+}

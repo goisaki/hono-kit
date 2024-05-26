@@ -1,0 +1,14 @@
+{
+  "name": "hono-kit",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Kengo Watanabe <ken5@kwtc.jp>",
+  "bin": "dist/cli.js",
+  "scripts": {
+    "build": "tsup"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  }
+}
