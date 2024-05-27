@@ -52,11 +52,6 @@ jobs:
           args: "--locked --release"
           strip: true
 
-      - name: Copy binary to package
-        run: |
-          mkdir -p packages/hono-kit-${{ matrix.platform.name }}/bin
-          cp target/${{ matrix.platform.target }}/release/hono-kit${{ matrix.platform.ext }} packages/hono-kit-${{ matrix.platform.name }}/bin/
-
       - name: Upload Release Binary
         uses: actions/upload-artifact@v4
         with:
@@ -74,6 +69,7 @@ jobs:
       - name: Download binaries
         run: |
           for target in darwin-arm64 darwin-x64 linux-arm64 linux-x64 windows-arm64 windows-x64; do
+            rm -rf packages/hono-kit-$target/bin/
             gh run download -n hono-kit-$target -D packages/hono-kit-$target/bin/
           done
         env:
