@@ -1,5 +1,11 @@
 # @goisaki/hono-kit
 
+## 0.1.3
+
+### Patch Changes
+
+- Fixed errors
+
 ## 0.1.2
 
 ### Patch Changes
