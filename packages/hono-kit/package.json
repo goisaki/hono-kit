@@ -1,0 +1,25 @@
+{
+  "name": "@goisaki/hono-kit",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.1.0-beta.0",
+  "license": "MIT",
+  "author": "Kengo Watanabe <ken5@kwtc.jp>",
+  "bin": "dist/cli.js",
+  "scripts": {
+    "build": "tsup"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  },
+  "optionalDependencies": {
+    "hono-kit-darwin-arm64": "workspace:^",
+    "hono-kit-darwin-x64": "workspace:^",
+    "hono-kit-linux-arm64": "workspace:^",
+    "hono-kit-linux-x64": "workspace:^",
+    "hono-kit-windows-arm64": "workspace:^",
+    "hono-kit-windows-x64": "workspace:^"
+  }
+}
