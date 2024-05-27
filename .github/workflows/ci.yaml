@@ -11,26 +11,26 @@ jobs:
     strategy:
       matrix:
         platform:
-          - name: linux-x64-glibc
-            os: ubuntu-20.04
-            target: x86_64-unknown-linux-gnu
-          - name: linux-arm64-glibc
-            os: ubuntu-20.04
-            target: aarch64-unknown-linux-gnu
-          - name: win32-x64-msvc
-            os: windows-2022
-            target: x86_64-pc-windows-msvc
-            ext: .exe
-          - name: win32-arm64-msvc
-            os: windows-2022
-            target: aarch64-pc-windows-msvc
-            ext: .exe
-          - name: darwin-x64
-            os: macos-14
-            target: x86_64-apple-darwin
           - name: darwin-arm64
             os: macos-14
             target: aarch64-apple-darwin
+          - name: darwin-x64
+            os: macos-14
+            target: x86_64-apple-darwin
+          - name: linux-arm64
+            os: ubuntu-20.04
+            target: aarch64-unknown-linux-gnu
+          - name: linux-x64
+            os: ubuntu-20.04
+            target: x86_64-unknown-linux-gnu
+          - name: win32-arm64
+            os: windows-2022
+            target: aarch64-pc-windows-msvc
+            ext: .exe
+          - name: win32-x64
+            os: windows-2022
+            target: x86_64-pc-windows-msvc
+            ext: .exe
 
     steps:
       - name: Checkout
@@ -52,8 +52,24 @@ jobs:
           args: "--locked --release"
           strip: true
 
-      - name: Upload Release Binary
-        uses: actions/upload-artifact@v4
+      - name: Copy binary to package
+        run: |
+          mkdir -p packages/hono-kit-${{ matrix.platform.name }}/bin
+          cp target/${{ matrix.platform.target }}/release/hono-kit${{ matrix.platform.ext }} packages/hono-kit-${{ matrix.platform.name }}/bin/
+
+  commit:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
         with:
-          name: hono-kit-${{ matrix.platform.name }}
-          path: target/${{ matrix.platform.target }}/release/hono-kit${{ matrix.platform.ext }}
+          add: -f packages/**/bin/hono-kit*
+          author_name: hono-kit-build-bot
+          message: "ci: update binary for all targets"
+          push: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
