@@ -14,22 +14,22 @@ importers:
 
   hono-kit:
     optionalDependencies:
-      hono-kit-darwin-arm64:
+      '@goisaki/hono-kit-darwin-arm64':
         specifier: workspace:^
         version: link:../hono-kit-darwin-arm64
-      hono-kit-darwin-x64:
+      '@goisaki/hono-kit-darwin-x64':
         specifier: workspace:^
         version: link:../hono-kit-darwin-x64
-      hono-kit-linux-arm64:
+      '@goisaki/hono-kit-linux-arm64':
         specifier: workspace:^
         version: link:../hono-kit-linux-arm64
-      hono-kit-linux-x64:
+      '@goisaki/hono-kit-linux-x64':
         specifier: workspace:^
         version: link:../hono-kit-linux-x64
-      hono-kit-windows-arm64:
+      '@goisaki/hono-kit-windows-arm64':
         specifier: workspace:^
         version: link:../hono-kit-windows-arm64
-      hono-kit-windows-x64:
+      '@goisaki/hono-kit-windows-x64':
         specifier: workspace:^
         version: link:../hono-kit-windows-x64
     devDependencies:
