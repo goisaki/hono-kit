@@ -3,17 +3,28 @@
 import { platform, arch } from "process";
 import {} from "node:fs";
 
-const targets: { target: string; url: string }[] = [
-  {
-    target: "darwin-x64",
-    url: "${darwin-x64-url}",
-  },
+const supportedTargets = [
+  "windows-arm64",
+  "linux-x64",
+  "darwin-arm64",
+  "windows-x64",
+  "darwin-x64",
+  "linux-arm64",
 ];
 const main = async (): Promise<void> => {
-  console.log("hono-kit");
   const target = `${platform}-${arch}`;
-  if (!targets.find((t) => t.target === target)) {
+  if (!supportedTargets.find((t) => t === target)) {
     throw new Error(`unsupported target: ${target}`);
+  }
+
+  const packageName = `@goisaki/hono-kit-${target}`;
+
+  try {
+    const targetPackage = require.resolve(packageName);
+    console.log(`Package ${packageName} exists and is ready.`);
+  } catch (err) {
+    console.log(`Target: ${target}`);
+    console.log(`Package ${packageName} does not exist.`);
   }
 };
 
