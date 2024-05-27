@@ -1,5 +1,11 @@
 # @goisaki/hono-kit
 
+## 0.1.1
+
+### Patch Changes
+
+- 6a48b81: Fixed the name of the depends
+
 ## 0.1.0
 
 ### Patch Changes
