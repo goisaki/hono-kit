@@ -1,5 +1,11 @@
 # @goisaki/hono-kit
 
+## 0.1.2
+
+### Patch Changes
+
+- 784b8cb: Added tsconfig.json and target package existence check
+
 ## 0.1.1
 
 ### Patch Changes
